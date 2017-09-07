@@ -138,6 +138,7 @@ namespace TheDotFactory
         public int lookupBlocksNewAfterCharCount = 80;
         public DescriptorFormat descImgWidth = DescriptorFormat.DisplayInBytes;
         public DescriptorFormat descImgHeight = DescriptorFormat.DisplayInBits;
+        public bool bit16 = false;
 
         // space generation
         public bool generateSpaceCharacterBitmap = false;
@@ -224,8 +225,9 @@ namespace TheDotFactory
                 // close and flush the stream
                 textReader.Close();
             }
-            catch (IOException)
+            catch (IOException ex)
             {
+                MessageBox.Show( ex.Message );
             }
         }
 

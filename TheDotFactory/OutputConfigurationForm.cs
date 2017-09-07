@@ -90,6 +90,8 @@ namespace TheDotFactory
             cbxGenerateLookupArray.Checked = outputConfig.generateLookupArray;
             txtBmpVisualizerChar.Text = outputConfig.bmpVisualizerChar;
             cbxGenerateLookupBlocks.Checked = outputConfig.generateLookupBlocks;
+            cbx16Bit.Checked = outputConfig.bit16;
+
 
             // radio buttons
             // -- wrap          
@@ -137,6 +139,7 @@ namespace TheDotFactory
             outputConfig.generateLookupArray = cbxGenerateLookupArray.Checked;
             outputConfig.bmpVisualizerChar = txtBmpVisualizerChar.Text;
             outputConfig.generateLookupBlocks = cbxGenerateLookupBlocks.Checked;
+            outputConfig.bit16 = cbx16Bit.Checked;
 
             // radio buttons
             // -- wrap

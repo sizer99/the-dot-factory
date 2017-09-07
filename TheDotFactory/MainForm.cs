@@ -1066,10 +1066,18 @@ namespace TheDotFactory
                 data[row] = "";
 
                 // iterator over columns
-                for (int col = 0; col != colCount; ++col)
+                for (int col = 0; col < colCount; ++col)
                 {
                     // get the byte to output
                     int page = (byte)pages[row * colCount + col];
+
+                    // ron hack
+                    if( m_outputConfig.bit16 )
+                    {
+                        page <<= 8;
+                        if( ++col < colCount )
+                            page |= (byte) pages[ row * colCount + col  ];
+                    }
 
                     // add leading character
                     data[row] += m_outputConfig.byteLeadingString;
@@ -1078,16 +1086,29 @@ namespace TheDotFactory
                     if (m_outputConfig.byteFormat == OutputConfiguration.ByteFormat.Hex)
                     {
                         // convert byte to hex
-                        data[row] += page.ToString("X").PadLeft(2, '0');
+                        if( m_outputConfig.bit16 ) // ron
+                        {
+                            data[ row ] += page.ToString( "X" ).PadLeft( 4, '0' );
+                        } else
+                        {
+                            data[ row ] += page.ToString( "X" ).PadLeft( 2, '0' );
+                        }
                     }
                     else
                     {
                         // convert byte to binary
-                        data[row] += Convert.ToString(page, 2).PadLeft(8, '0');
+                        if( m_outputConfig.bit16 ) // ron
+                        {
+                            data[ row ] += Convert.ToString( page, 2 ).PadLeft( 16, '0' );
+                        } else
+                        {
+                            data[ row ] += Convert.ToString( page, 2 ).PadLeft( 8, '0' );
+                        }
                     }
 
                     // add comma
                     data[row] += ", ";
+
                 }
             }
         }
