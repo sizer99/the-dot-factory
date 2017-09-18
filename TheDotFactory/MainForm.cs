@@ -664,6 +664,12 @@ namespace TheDotFactory
                 bitmapCropBorder.rightX = bitmapOriginal.Width - 1;
             }
 
+            if( m_outputConfig.bit16 && m_outputConfig.bitLayout == OutputConfiguration.BitLayout.ColumnMajor )
+            {
+                if( ( bitmapCropBorder.rightX - bitmapCropBorder.leftX + 1 ) % 2 == 1 )
+                    bitmapCropBorder.rightX += 1;
+            }
+
             // now copy the output bitmap, cropped as required, to a temporary bitmap
             Rectangle rect = new Rectangle(bitmapCropBorder.leftX, 
                                             bitmapCropBorder.topY,
@@ -805,7 +811,12 @@ namespace TheDotFactory
                 fontInfo.characters[charIdx].offsetInBytes = charByteOffset;
 
                 // increment byte offset
-                charByteOffset += fontInfo.characters[charIdx].pages.Count;
+                if( m_outputConfig.bit16 )
+                {
+                    charByteOffset += ( fontInfo.characters[ charIdx ].pages.Count + 1 ) / 2;
+                } else {
+                    charByteOffset += fontInfo.characters[ charIdx ].pages.Count;
+                }
             }
         }
 
